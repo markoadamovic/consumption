@@ -1,0 +1,154 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-init-schema
+      author: markoadamovic
+      changes:
+        - createTable:
+            tableName: profile
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+        - createTable:
+            tableName: meter
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: meter_counter
+                  type: double
+              - column:
+                  name: profile_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    references: profile(id)
+                    foreignKeyName: fk_profile_meter
+
+        - createTable:
+            tableName: meter_reading
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_of_measuring
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: value
+                  type: double
+              - column:
+                  name: meter_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    references: meter(id)
+                    foreignKeyName: fk_meter_meter_reading
+
+        - createTable:
+            tableName: fraction
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: month
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fraction_value
+                  type: double
+              - column:
+                  name: profile_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    references: profile(id)
+                    foreignKeyName: fk_profile_fraction
+        - createTable:
+            tableName: consumption
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: consumption_value
+                  type: double
+              - column:
+                  name: month
+                  type: varchar(50)
+              - column:
+                  name: start_date
+                  type: datetime
+              - column:
+                  name: end_date
+                  type: datetime
+#              - column:
+#                  name: profile_id
+#                  type: bigint
+#                  constraints:
+#                    nullable: false
+#                    references: profile(id)
+#                    foreignKeyName: fk_profile_consumption
+              - column:
+                  name: meter_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    references: meter(id)
+                    foreignKeyName: fk_meter_consumption
