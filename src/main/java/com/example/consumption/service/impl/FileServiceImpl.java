@@ -2,6 +2,7 @@ package com.example.consumption.service.impl;
 
 import com.example.consumption.exception.BadRequestException;
 import com.example.consumption.model.dto.MeterDto;
+import com.example.consumption.model.dto.ProfileDto;
 import com.example.consumption.model.entity.*;
 import com.example.consumption.service.MeterService;
 import com.example.consumption.service.FileService;
@@ -20,6 +21,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 import static com.example.consumption.util.ApplicationConstants.monthAbbreviationToLastDayOfMonth;
@@ -33,11 +35,12 @@ public class FileServiceImpl implements FileService {
     private final ProfileService profileService;
 
     @Override
-    public void processAndSaveProfileFractionData(MultipartFile file) {
+    public List<ProfileDto> processAndSaveProfileFractionData(MultipartFile file) {
         try {
-            csvToFraction(file.getInputStream());
+            return csvToFraction(file.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
+            return new ArrayList<>();
         }
     }
 
@@ -47,7 +50,7 @@ public class FileServiceImpl implements FileService {
             return csvToMeterReading(file.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -88,7 +91,7 @@ public class FileServiceImpl implements FileService {
             return meterService.saveAllMeters(new ArrayList<>(meterMap.values()));
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -140,7 +143,7 @@ public class FileServiceImpl implements FileService {
     }
 
 
-    private void csvToFraction(InputStream inputStream) {
+    private List<ProfileDto> csvToFraction(InputStream inputStream) {
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
              CSVParser csvParser = new CSVParser(fileReader,
                      CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
@@ -164,8 +167,12 @@ public class FileServiceImpl implements FileService {
             List<Profile> profiles = new ArrayList<>(profileMap.values());
             validateFractionValueSize(profiles);
             profileService.saveProfiles(profiles);
+            return profiles.stream()
+                    .map(ProfileDto::fromEntity)
+                    .collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
+            return new ArrayList<>();
         }
     }
 
