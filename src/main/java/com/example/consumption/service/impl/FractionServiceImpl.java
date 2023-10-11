@@ -75,7 +75,7 @@ public class FractionServiceImpl implements FractionService {
         Profile profile = fraction.getProfile();
         double fractionsValue = profile.getFractions().stream().mapToDouble(Fraction::getValue).sum();
         if (fractionsValue + fractionDto.getValue() > 1.0) {
-            throw new BadRequestException("Validation error: Fractions must have a total value of 1.0");
+            throw new BadRequestException("Bad request: Fractions must have a total value of 1.0");
         }
         fraction.setValue(fractionDto.getValue());
 
@@ -95,7 +95,7 @@ public class FractionServiceImpl implements FractionService {
         }
         double fractionsValue = fractions.stream().mapToDouble(Fraction::getValue).sum();
         if (fractionsValue != 1.0) {
-            throw new BadRequestException("Validation error: Fractions must have exactly 12 entries with a total value of 1.0");
+            throw new BadRequestException("Bad request: Fractions must have exactly 12 entries with a total value of 1.0");
         }
 
         return fractionRepository.saveAll(fractions)

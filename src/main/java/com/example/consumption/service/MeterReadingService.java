@@ -16,8 +16,8 @@ public interface MeterReadingService {
 
     MeterReadingDto createMeterReading(Long profileId, Long meterId);
 
-    void deleteMeterReading(Long profileId, Long meterId, Long meterReadingId);
-
     MeterReading getMeterReadingModel(Long profileId, Long meterId, Long meterReadingId);
+
+    void deleteMeterReading(Long profileId, Long meterId, Long meterReadingId);
 
 }

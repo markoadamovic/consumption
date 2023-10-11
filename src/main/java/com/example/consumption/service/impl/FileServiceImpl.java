@@ -276,7 +276,7 @@ public class FileServiceImpl implements FileService {
         if (fractionValuesMap.containsKey(profile)) {
             Double currentFractionsValues = fractionValuesMap.get(profile);
             if (currentFractionsValues + value > 1) {
-                throw new BadRequestException("Input ERROR: fraction value is greater then 1");
+                throw new BadRequestException("Validation error: fraction value is greater then 1");
             }
             fractionValuesMap.put(profile, currentFractionsValues + value);
         } else {
@@ -288,7 +288,7 @@ public class FileServiceImpl implements FileService {
         boolean validateSize = profiles.stream()
                 .allMatch(profile -> profile.getFractions().size() == 12);
         if (!validateSize) {
-            throw new BadRequestException("Input error, missing data for FRACTIONS");
+            throw new BadRequestException("Validation error, missing data for FRACTIONS");
         }
     }
 

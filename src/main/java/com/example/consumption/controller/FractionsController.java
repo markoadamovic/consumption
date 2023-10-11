@@ -1,9 +1,11 @@
 package com.example.consumption.controller;
 
+import com.example.consumption.controller.abstractions.FractionControllerInterface;
 import com.example.consumption.model.dto.UpdateFractionDto;
 import com.example.consumption.model.dto.FractionDto;
 import com.example.consumption.service.FractionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/profile/{profileId}/fractions")
-public class FractionsController {
+public class FractionsController implements FractionControllerInterface {
 
     private final FractionService fractionService;
 
@@ -30,7 +32,7 @@ public class FractionsController {
     @PostMapping
     public ResponseEntity<FractionDto> createFraction(@PathVariable Long profileId,
                                                       @RequestBody FractionDto fractionDto) {
-        return ResponseEntity.ok().body(fractionService.createFraction(profileId, fractionDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(fractionService.createFraction(profileId, fractionDto));
     }
 
     @PutMapping("/{fractionId}")
@@ -48,8 +50,8 @@ public class FractionsController {
 
 
     @DeleteMapping("/{fractionId}")
-    public ResponseEntity<FractionDto> deleteFraction(@PathVariable Long profileId,
-                                                      @PathVariable Long fractionId) {
+    public ResponseEntity<Void> deleteFraction(@PathVariable Long profileId,
+                                               @PathVariable Long fractionId) {
         fractionService.deleteFraction(profileId, fractionId);
         return ResponseEntity.noContent().build();
     }

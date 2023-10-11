@@ -1,5 +1,6 @@
 package com.example.consumption.controller;
 
+import com.example.consumption.controller.abstractions.FileControllerInterface;
 import com.example.consumption.model.dto.MeterDto;
 import com.example.consumption.model.dto.ProfileDto;
 import com.example.consumption.service.FileService;
@@ -14,12 +15,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class FileController {
+public class FileController implements FileControllerInterface {
 
     private final FileService fileService;
 
     @PostMapping("/read-fraction-data")
-    public ResponseEntity<List<ProfileDto>> processFractionData(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<List<ProfileDto>> processProfileData(@RequestParam("file") MultipartFile file) {
 
         return ResponseEntity.ok().body(fileService.processAndSaveProfileFractionData(file));
     }
