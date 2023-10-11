@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface MeterReadingService {
 
-    List<MeterReadingDto> getAllMeterReadings(Long profileId, Long meterId);
+    List<MeterReadingDto> getMeterReadings(Long profileId, Long meterId);
 
     MeterReading getMeterReadingByTimeOfMeasuring(Long profileId, Long meterId, LocalDateTime timeOfMeasuring);
 
@@ -17,5 +17,7 @@ public interface MeterReadingService {
     MeterReadingDto createMeterReading(Long profileId, Long meterId);
 
     void deleteMeterReading(Long profileId, Long meterId, Long meterReadingId);
+
+    MeterReading getMeterReadingModel(Long profileId, Long meterId, Long meterReadingId);
 
 }

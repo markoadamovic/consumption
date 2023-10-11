@@ -14,7 +14,7 @@ public interface MeterReadingRepository extends JpaRepository<MeterReading, Long
     @Query("SELECT mr FROM MeterReading mr " +
             "JOIN Meter m ON mr.meter.id = :meterId " +
             "WHERE m.profile.id = :profileId " +
-            "AND mr.dateOfMeasuring = :timeOfMeasuring ")
+            "AND mr.timeOfMeasuring = :timeOfMeasuring ")
     Optional<MeterReading> findMeterReading(@Param("profileId") Long profileId,
                                             @Param("meterId") Long meterId,
                                             @Param("timeOfMeasuring") LocalDateTime timeOfMeasuring);
@@ -31,6 +31,7 @@ public interface MeterReadingRepository extends JpaRepository<MeterReading, Long
     @Query("SELECT mr FROM MeterReading  mr " +
             "WHERE mr.meter.id = :meterId " +
             "AND mr.meter.profile.id = :profileId")
-    List<MeterReading> findAll(@Param("meterId") Long meterId,
-                               @Param("profileId") Long profileId);
+    List<MeterReading> findAll(@Param("profileId") Long profileId,
+                               @Param("meterId") Long meterId);
+
 }

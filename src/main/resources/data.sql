@@ -39,7 +39,7 @@ VALUES
     (1001, 1000, 'ACTIVE', 30);
 
 -------------------------- METER_READING ----------------------------
-INSERT INTO meter_reading (id, meter_id, status, date_of_measuring, value)
+INSERT INTO meter_reading (id, meter_id, status, time_of_measuring, value)
 VALUES
     (1101, 1000, 'ACTIVE', '2021-12-31 23:59:59', 0),
     (1001, 1000, 'ACTIVE', '2023-01-01', 0),

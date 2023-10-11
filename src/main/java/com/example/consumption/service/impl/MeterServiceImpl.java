@@ -31,16 +31,6 @@ public class MeterServiceImpl implements MeterService {
     }
 
     @Override
-    public Optional<Meter> findByIdAndProfileId(Long meterId, String profileName) {
-        return meterRepository.findByProfileNameAndId(meterId, profileName);
-    }
-
-    @Override
-    public List<Meter> getAllMeters() {
-        return meterRepository.findAll();
-    }
-
-    @Override
     public List<MeterDto> saveAllMeters(List<Meter> meters) {
         return meterRepository.saveAll(meters).stream()
                 .map(MeterDto::fromEntity)

@@ -33,5 +33,4 @@ public class Meter extends AbstractEntity {
     @Builder.Default
     private List<Consumption> consumptions = new ArrayList<>();
 
-
 }

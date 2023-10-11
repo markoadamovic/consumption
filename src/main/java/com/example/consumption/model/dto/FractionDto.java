@@ -27,7 +27,15 @@ public class FractionDto {
                 .profileId(fraction.getProfile().getId())
                 .entityStatus(fraction.getStatus())
                 .month(fraction.getMonth())
-                .value(fraction.getFractionValue())
+                .value(fraction.getValue())
+                .build();
+    }
+
+    public static Fraction toEntity(FractionDto fractionDto) {
+        return Fraction.builder()
+                .id(fractionDto.getId())
+                .month(fractionDto.getMonth())
+                .value(fractionDto.value)
                 .build();
     }
 

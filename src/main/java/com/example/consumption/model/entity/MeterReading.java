@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 @Table(name = "meter_reading")
 public class MeterReading extends AbstractEntity {
 
-    @Column(name = "date_of_measuring")
-    private LocalDateTime dateOfMeasuring;
+    @Column(name = "time_of_measuring")
+    private LocalDateTime timeOfMeasuring;
 
     @Column(name = "value")
     private double value = 0;

@@ -18,7 +18,7 @@ public class MeterReadingController {
     @GetMapping
     public ResponseEntity<List<MeterReadingDto>> getMeterReadings(@PathVariable Long profileId,
                                                                   @PathVariable Long meterId) {
-        return ResponseEntity.ok().body(meterReadingService.getAllMeterReadings(profileId, meterId));
+        return ResponseEntity.ok().body(meterReadingService.getMeterReadings(profileId, meterId));
     }
 
     @GetMapping("/{meterReadingId}")

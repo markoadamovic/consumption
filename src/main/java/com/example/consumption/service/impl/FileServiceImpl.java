@@ -104,17 +104,17 @@ public class FileServiceImpl implements FileService {
             }
             Meter meter = entry.getValue();
             List<MeterReading> meterReadings = meter.getMeterReadings();
-            meterReadings.sort(Comparator.comparing(MeterReading::getDateOfMeasuring));
+            meterReadings.sort(Comparator.comparing(MeterReading::getTimeOfMeasuring));
             List<Fraction> fractions = meter.getProfile().getFractions();
             fractions.sort(Comparator.comparing(this::getMonthOrder));
 
             double totalConsumptionValue = meterReadings.get(meterReadings.size() - 1).getValue();
 
-            if (isValidConsumptionValue(meterReadings.get(0).getValue(), totalConsumptionValue, fractions.get(0).getFractionValue())) {
+            if (isValidConsumptionValue(meterReadings.get(0).getValue(), totalConsumptionValue, fractions.get(0).getValue())) {
                 Consumption consumption = Consumption.builder()
                         .meter(meter)
                         .consumptionValue(meterReadings.get(0).getValue())
-                        .month(meterReadings.get(0).getDateOfMeasuring().getMonth().toString())
+                        .month(meterReadings.get(0).getTimeOfMeasuring().getMonth().toString())
                         .build();
                 meter.getConsumptions().add(consumption);
             } else {
@@ -127,11 +127,11 @@ public class FileServiceImpl implements FileService {
                 double meterReadingValue = meterReadings.get(i).getValue();
                 double previousMeterReadingValue = meterReadings.get(i - 1).getValue();
                 double consumptionValue = meterReadingValue - previousMeterReadingValue;
-                if (isValidConsumptionValue(consumptionValue, totalConsumptionValue, fractions.get(i).getFractionValue())) {
+                if (isValidConsumptionValue(consumptionValue, totalConsumptionValue, fractions.get(i).getValue())) {
                     Consumption c = Consumption.builder()
                             .meter(meter)
                             .consumptionValue(consumptionValue)
-                            .month(meterReadings.get(i).getDateOfMeasuring().getMonth().toString())
+                            .month(meterReadings.get(i).getTimeOfMeasuring().getMonth().toString())
                             .build();
                     meter.getConsumptions().add(c);
                 } else {
@@ -209,7 +209,7 @@ public class FileServiceImpl implements FileService {
         }
         Fraction fraction = Fraction.builder()
                 .month(month)
-                .fractionValue(fractionValue)
+                .value(fractionValue)
                 .profile(profile)
                 .build();
 
@@ -225,7 +225,7 @@ public class FileServiceImpl implements FileService {
         return MeterReading.builder()
                 .meter(meter)
                 .value(meterValue)
-                .dateOfMeasuring(dateOfMeasuring)
+                .timeOfMeasuring(dateOfMeasuring)
                 .build();
     }
 
@@ -248,7 +248,7 @@ public class FileServiceImpl implements FileService {
                                              LocalDateTime dayOfMeasuring,
                                              Double newValue) {
         return meterReadings.stream()
-                .anyMatch(meterReading -> meterReading.getDateOfMeasuring().isBefore(dayOfMeasuring) &&
+                .anyMatch(meterReading -> meterReading.getTimeOfMeasuring().isBefore(dayOfMeasuring) &&
                         meterReading.getValue() > newValue);
     }
 

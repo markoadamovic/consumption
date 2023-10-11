@@ -12,17 +12,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class MeterReadingDto {
 
-    private Long meterReadingId;
+    private Long id;
 
-    private LocalDateTime dateOfMeasuring;
+    private LocalDateTime timeOfMeasuring;
 
-    private double readingValue;
+    private double value;
 
     public static MeterReadingDto fromEntity(MeterReading meterReading) {
         return MeterReadingDto.builder()
-                .meterReadingId(meterReading.getId())
-                .readingValue(meterReading.getValue())
-                .dateOfMeasuring(meterReading.getDateOfMeasuring())
+                .id(meterReading.getId())
+                .value(meterReading.getValue())
+                .timeOfMeasuring(meterReading.getTimeOfMeasuring())
                 .build();
     }
 }

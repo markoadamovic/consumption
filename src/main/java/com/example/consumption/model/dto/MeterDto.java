@@ -14,25 +14,25 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class MeterDto {
 
-    private Long meterId;
+    private Long id;
 
     private Long profileId;
 
     private EntityStatus entityStatus;
 
-    private List<MeterReadingDto> meterReadingList;
+    private List<MeterReadingDto> meterReadings;
 
-    private List<ConsumptionDto> consumptionDtos;
+    private List<ConsumptionDto> consumptions;
 
     public static MeterDto fromEntity(Meter meter) {
         return MeterDto.builder()
-                .meterId(meter.getId())
+                .id(meter.getId())
                 .profileId(meter.getProfile().getId())
                 .entityStatus(meter.getStatus())
-                .meterReadingList(meter.getMeterReadings().stream()
+                .meterReadings(meter.getMeterReadings().stream()
                         .map(MeterReadingDto::fromEntity)
                         .collect(Collectors.toList()))
-                .consumptionDtos(meter.getConsumptions().stream()
+                .consumptions(meter.getConsumptions().stream()
                         .map(ConsumptionDto::fromEntity)
                         .collect(Collectors.toList()))
                 .build();

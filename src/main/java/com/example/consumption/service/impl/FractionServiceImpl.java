@@ -52,18 +52,18 @@ public class FractionServiceImpl implements FractionService {
         Profile profile = profileService.getProfileModel(profileId);
 
         if(profile.getFractions().stream().anyMatch(fraction -> fraction.getMonth().equals(fractionDto.getMonth()))) {
-            throw new BadRequestException(String.format("Fraction for month %s is already created", fractionDto.getMonth()));
+            throw new BadRequestException(String.format("Bad request, fraction for month %s is already created", fractionDto.getMonth()));
         }
 
         Fraction fraction = Fraction.builder()
                 .month(fractionDto.getMonth())
-                .fractionValue(fractionDto.getValue())
+                .value(fractionDto.getValue())
                 .profile(profile)
                 .build();
 
-        double fractionsValue = fractionDto.getValue() + profile.getFractions().stream().mapToDouble(Fraction::getFractionValue).sum();
-        if (fractionsValue > 1.0) {
-            throw new BadRequestException("Validation error: Fractions must have a total size and value not greater then 12 or 1.0");
+        double fractionsValue = fractionDto.getValue() + profile.getFractions().stream().mapToDouble(Fraction::getValue).sum();
+        if (profile.getFractions().size() == 12 && fractionsValue != 1.0 || fractionsValue > 1) {
+            throw new BadRequestException("Bad request: Fractions must have a total size and value not greater then 12 or 1.0");
         }
 
         return FractionDto.fromEntity(fractionRepository.save(fraction));
@@ -73,11 +73,11 @@ public class FractionServiceImpl implements FractionService {
     public FractionDto updateFraction(Long profileId, Long fractionId, FractionDto fractionDto) {
         Fraction fraction = getFractionModel(profileId, fractionId);
         Profile profile = fraction.getProfile();
-        double fractionsValue = profile.getFractions().stream().mapToDouble(Fraction::getFractionValue).sum();
+        double fractionsValue = profile.getFractions().stream().mapToDouble(Fraction::getValue).sum();
         if (fractionsValue + fractionDto.getValue() > 1.0) {
             throw new BadRequestException("Validation error: Fractions must have a total value of 1.0");
         }
-        fraction.setFractionValue(fractionDto.getValue());
+        fraction.setValue(fractionDto.getValue());
 
         return FractionDto.fromEntity(fractionRepository.save(fraction));
     }
@@ -91,9 +91,9 @@ public class FractionServiceImpl implements FractionService {
             double fractionValue = entry.getValue();
             fractions.stream()
                     .filter(fraction -> fraction.getMonth().equals(month))
-                    .forEach(fraction -> fraction.setFractionValue(fractionValue));
+                    .forEach(fraction -> fraction.setValue(fractionValue));
         }
-        double fractionsValue = fractions.stream().mapToDouble(Fraction::getFractionValue).sum();
+        double fractionsValue = fractions.stream().mapToDouble(Fraction::getValue).sum();
         if (fractionsValue != 1.0) {
             throw new BadRequestException("Validation error: Fractions must have exactly 12 entries with a total value of 1.0");
         }

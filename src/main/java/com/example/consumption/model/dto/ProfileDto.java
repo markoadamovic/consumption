@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 @Getter
 public class ProfileDto {
 
+    private Long id;
+
     private String name;
 
     private List<FractionDto> fractions;
@@ -19,6 +21,7 @@ public class ProfileDto {
 
     public static ProfileDto fromEntity(Profile profile) {
         return ProfileDto.builder()
+                .id(profile.getId())
                 .name(profile.getName())
                 .fractions(profile.getFractions()
                         .stream()

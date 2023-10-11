@@ -34,10 +34,10 @@ public class MeterReadingServiceImpl implements MeterReadingService {
         MeterReading meterReading = MeterReading.builder()
                 .meter(meter)
                 .value(meter.getMeterCounter())
-                .dateOfMeasuring(LocalDateTime.now())
+                .timeOfMeasuring(LocalDateTime.now())
                 .build();
 
-        return MeterReadingDto.fromEntity(meterReading);
+        return MeterReadingDto.fromEntity(meterReadingRepository.save(meterReading));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MeterReadingServiceImpl implements MeterReadingService {
     }
 
     @Override
-    public List<MeterReadingDto> getAllMeterReadings(Long profileId, Long meterId) {
+    public List<MeterReadingDto> getMeterReadings(Long profileId, Long meterId) {
         return meterReadingRepository.findAll(profileId, meterId)
                 .stream()
                 .map(MeterReadingDto::fromEntity)
@@ -64,7 +64,8 @@ public class MeterReadingServiceImpl implements MeterReadingService {
                         "with id %s and dateTime %s is not found", meterId, profileId, timeOfMeasuring)));
     }
 
-    private MeterReading getMeterReadingModel(Long profileId, Long meterId, Long meterReadingId) {
+    @Override
+    public MeterReading getMeterReadingModel(Long profileId, Long meterId, Long meterReadingId) {
         return meterReadingRepository.findByProfileAndMeterAndId(profileId, meterId, meterReadingId)
                 .orElseThrow(() -> new NotFoundException(String.format("MeterReading with id %s for profile " +
                         "with id %s and meter with id %s is not found", meterReadingId, profileId, meterId)));

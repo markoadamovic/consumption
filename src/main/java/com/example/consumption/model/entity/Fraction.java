@@ -15,11 +15,11 @@ import org.hibernate.annotations.Where;
 @Table(name = "fraction")
 public class Fraction extends AbstractEntity {
 
-    @Column(name = "month")
+    @Column(name = "month", nullable = false)
     private String month;
 
-    @Column(name = "fraction_value")
-    private double fractionValue;
+    @Column(name = "fraction_value", nullable = false)
+    private double value;
 
     @ManyToOne
     @JoinColumn(name = "profile_id")
