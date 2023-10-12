@@ -221,7 +221,7 @@ public class FileServiceImpl implements FileService {
     private MeterReading createMeterReading(Meter meter,
                                             double meterValue,
                                             LocalDateTime dateOfMeasuring) {
-        meter.setMeterCounter(meterValue);
+        meter.setMeterCounter(meter.getMeterCounter() > meterValue ? meter.getMeterCounter() : meterValue);
         return MeterReading.builder()
                 .meter(meter)
                 .value(meterValue)
