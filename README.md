@@ -11,6 +11,7 @@ implementation("eu.ionity.commons:spring-boot-starter-gdpr-compliance:<version>"
 ```
 
 ## How to Use this Starter?
+## Example Implementation
 
 ### Data Masking for Storing
 Data masking for storing can be achieved using annotations. Use the `@Convert` annotation with the `DataMaskingConverter` class to mask sensitive data before storing it in your database.
@@ -18,8 +19,6 @@ Data masking for storing can be achieved using annotations. Use the `@Convert` a
 ### Data Masking for Logging
 Data masking for logging can be achieved using mask patterns in the `logback-spring.xml` file. This ensures that sensitive data is masked in log messages, helping you comply with GDPR requirements.
 ## Implementation Guidelines
-
-## Example Implementation
 
 ### Data Masking for Storing
 Data masking for storing can be achieved using annotations. Use the `@Convert` annotation with the `DataMaskingConverter` class to mask sensitive data before storing it in your database.
