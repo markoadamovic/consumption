@@ -21,7 +21,14 @@ Data masking for logging can be achieved using mask patterns in the `logback-spr
 
 ## Example Implementation
 
-### Configuration in logback-spring.xml
+### Data Masking for Storing:
+@Entity
+data class User(
+@Convert(converter = DataMaskingConverter::class)
+var firstName: String? = "John",
+// Other fields...
+)
+### Configuration in logback-spring.xml:
 
 To configure data masking for logging, follow these steps:
 
