@@ -59,3 +59,4 @@ Example `logback-spring.xml` configuration:
         <appender-ref ref="mask" />
     </root>
 </configuration>
+```
